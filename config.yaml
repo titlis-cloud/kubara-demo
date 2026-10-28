@@ -3,18 +3,10 @@ clusters:
   - name: test-cluster
     stage: test
     type: hub
-    dnsName: test.titlis.dev
-    ssoOrg: wl
-    ssoTeam: team
+    dnsName: 172.20.0.3.traefik.me
+    ssoOrg: local
+    ssoTeam: local
     ingressClassName: traefik
-    terraform:
-      provider: none
-      projectId: tc
-      kubernetesType: <edge, ske or cce>
-      kubernetesVersion: "1.36"
-      dns:
-        name: test.titlis.dev
-        email: my-test@nowhere.com
     argocd:
       selfManaged: enabled
       repo:
@@ -39,7 +31,7 @@ clusters:
       crossplane:
         status: disabled
       external-dns:
-        status: enabled
+        status: disabled
       external-secrets:
         status: enabled
       homer-dashboard:
@@ -47,21 +39,21 @@ clusters:
       kube-prometheus-stack:
         status: enabled
       kyverno:
-        status: enabled
+        status: disabled
       kyverno-policies:
-        status: enabled
+        status: disabled
       kyverno-policy-reporter:
-        status: enabled
+        status: disabled
       loki:
-        status: enabled
+        status: disabled
       longhorn:
         status: disabled
       metallb:
         status: disabled
       metrics-server:
-        status: disabled
-      oauth2-proxy:
         status: enabled
+      oauth2-proxy:
+        status: disabled
       reloader:
         status: disabled
       traefik:

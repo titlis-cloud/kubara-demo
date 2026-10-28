@@ -3,13 +3,11 @@
 # To customize values, you can add additional files named values-*.yaml to this directory.
 
 ingress:
-  enabled: true
-  host: test.titlis.dev
+  host: 172.20.0.3.traefik.me
   path: "/"
   ingressClassName: traefik
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
-    traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth-auth@kubernetescrd
 namespace:
   labels:
     project-name: "test-cluster"
@@ -108,16 +106,6 @@ dashboardConfig:
           logo: "/assets/tools/alertmanager.png"
           url: "/alertmanager/"
           subtitle: "Alertmanager Dashboard"
-          target: "_blank"
-        - name: "kyverno"
-          logo: "/assets/tools/kyverno.png"
-          url: "/kyverno/"
-          subtitle: "Policy Reporter Dashboard"
-          target: "_blank"
-        - name: "traefik"
-          logo: "/assets/tools/traefik.png"
-          url: "https://test.titlis.dev/traefik/dashboard/"
-          subtitle: "Traefik Dashboard"
           target: "_blank"
     - name: "DevOps Links"
       items:

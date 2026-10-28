@@ -107,18 +107,18 @@ inClusterSecretLabels:
   argocd: "enabled"
   cert-manager: "enabled"
   crossplane: "disabled"
-  external-dns: "enabled"
+  external-dns: "disabled"
   external-secrets: "enabled"
   homer-dashboard: "enabled"
   kube-prometheus-stack: "enabled"
-  kyverno: "enabled"
-  kyverno-policies: "enabled"
-  kyverno-policy-reporter: "enabled"
-  loki: "enabled"
+  kyverno: "disabled"
+  kyverno-policies: "disabled"
+  kyverno-policy-reporter: "disabled"
+  loki: "disabled"
   longhorn: "disabled"
   metallb: "disabled"
-  metrics-server: "disabled"
-  oauth2-proxy: "enabled"
+  metrics-server: "enabled"
+  oauth2-proxy: "disabled"
   reloader: "disabled"
   traefik: "enabled"
   velero: "disabled"
@@ -130,11 +130,6 @@ externalSecrets:
     name: test-cluster-test
 
 
-
-  secrets:
-    oauth2-credentials:
-      dataFrom:
-        - remoteKey: test-cluster/test/argocd/argo_oauth2_credentials
 argo-cd:
   server:
     ingressGrpc:
@@ -145,36 +140,22 @@ argo-cd:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-staging
     ingress:
-      enabled: true
       path: "/argocd"
       ingressClassName: traefik
       tls: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-staging
-        traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth-auth@kubernetescrd
   configs:
-    cm:
-      url: https://test.titlis.dev/argocd
-      dex.config: |
-        connectors:
-          - type: github
-            id: github
-            name: GitHub
-            config:
-              clientID: $oauth2-credentials:client-id
-              clientSecret: $oauth2-credentials:client-secret
-              orgs:
-                - name: wl
     rbac:
       policy.default: role:readonly
       policy.csv: |
-        g, wl:team, role:admin
+        g, local:local, role:admin
     params:
       server.rootpath: /argocd
       server.basehref: /argocd
       server.insecure: true
   global:
-    domain: test.titlis.dev
+    domain: 172.20.0.3.traefik.me
     revisionHistoryLimit: 5
     imagePullSecrets:
       - name: image-pull-secret

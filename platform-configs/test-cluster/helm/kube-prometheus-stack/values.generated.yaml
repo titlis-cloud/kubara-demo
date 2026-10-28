@@ -24,17 +24,15 @@ kube-prometheus-stack:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-staging
-        traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth-auth@kubernetescrd
-      enabled: true
       paths:
         - /prometheus
       pathType: ImplementationSpecific
       hosts:
-        - test.titlis.dev
+        - 172.20.0.3.traefik.me
       tls:
         - secretName: tls-prometheus
           hosts:
-            - test.titlis.dev
+            - 172.20.0.3.traefik.me
 
 
     prometheusSpec:
@@ -50,7 +48,7 @@ kube-prometheus-stack:
             resources:
               requests:
                 storage: 10Gi
-      externalUrl: https://test.titlis.dev/prometheus
+      externalUrl: https://172.20.0.3.traefik.me/prometheus
       routePrefix: /prometheus
     thanosServiceMonitor:
       serviceMonitor:
@@ -64,17 +62,15 @@ kube-prometheus-stack:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-staging
-        traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth-auth@kubernetescrd
-      enabled: true
       paths:
         - /alertmanager
       pathType: ImplementationSpecific
       hosts:
-        - test.titlis.dev
+        - 172.20.0.3.traefik.me
       tls:
         - secretName: tls-alertmanager
           hosts:
-            - test.titlis.dev
+            - 172.20.0.3.traefik.me
 
 
 # Below is an example alertmanager.config section:
@@ -122,7 +118,7 @@ kube-prometheus-stack:
 #        - msteams-webhook-url
 #        - uptimerobot-webhook-url
 
-      externalUrl: https://test.titlis.dev/alertmanager
+      externalUrl: https://172.20.0.3.traefik.me/alertmanager
       routePrefix: /alertmanager
 
   kube-state-metrics:
@@ -171,39 +167,18 @@ kube-prometheus-stack:
       ingressClassName: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-staging
-        traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth-auth@kubernetescrd
-      enabled: true
       path: /grafana
       pathType: ImplementationSpecific
       hosts:
-        - test.titlis.dev
+        - 172.20.0.3.traefik.me
       tls:
         - secretName: tls-grafana
           hosts:
-            - test.titlis.dev
-    envFromSecrets:
-      - name: oauth2-credentials
+            - 172.20.0.3.traefik.me
     grafana.ini:
       server:
-        root_url: https://test.titlis.dev/grafana/
+        root_url: https://172.20.0.3.traefik.me/grafana/
         serve_from_sub_path: true
-      auth.github:
-        name: "Github"
-        enabled: true
-        client_id: ${client-id}
-        client_secret: ${client-secret}
-        allow_sign_up: true
-        auto_login: false
-        scopes: "user:email,read:org"
-        allowed_organizations: "[\"wl\"]"
-        role_attribute_path: contains(groups[*], '@wl/team') && 'Admin' || 'Viewer'
-    additionalDataSources:
-      - access: proxy
-        isDefault: false
-        name: loki
-        type: loki
-        url: http://loki-headless.loki.svc.cluster.local:3100
-        version: 1
 prometheus-blackbox-exporter:
   image:
     pullSecrets:
@@ -222,9 +197,6 @@ externalSecrets:
     grafana-admin-credentials:
       dataFrom:
         - remoteKey: test-cluster/test/kube-prometheus-stack/grafana_credentials
-    oauth2-credentials:
-      dataFrom:
-        - remoteKey: test-cluster/test/kube-prometheus-stack/grafana_oauth2_credentials
 
 namespace:
   labels:
