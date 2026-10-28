@@ -13,10 +13,10 @@ clusters:
         authMode: https
         git:
           configs:
-            url: https://github.com/your-user/your-gitops-repo.git
+            url: https://github.com/titlis-cloud/kubara-demo.git
             targetRevision: main
           components:
-            url: https://github.com/your-user/your-gitops-repo.git
+            url: https://github.com/titlis-cloud/kubara-demo.git
             targetRevision: main
     catalogs:
       - oci://ghcr.io/kubara-io/catalogs/general:7.0.0

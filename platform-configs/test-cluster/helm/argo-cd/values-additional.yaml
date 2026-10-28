@@ -2,7 +2,7 @@ bootstrapValues:
   projects:
     test-cluster-local:
       sourceRepos:
-        - "https://github.com/your-user/your-gitops-repo.git"
+        - "https://github.com/titlis-cloud/kubara-demo.git"
         - "https://charts.external-secrets.io/"
         - "https://charts.jetstack.io"
         - "https://prometheus-community.github.io/helm-charts"

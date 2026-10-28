@@ -31,11 +31,11 @@ bootstrapValues:
     test-cluster-local:
       projectName: "test-cluster-local"
       platformComponents:
-        repoURL: "https://github.com/your-user/your-gitops-repo.git"
+        repoURL: "https://github.com/titlis-cloud/kubara-demo.git"
         path: "platform-components/helm"
         targetRevision: "main"
       platformConfigs:
-        repoURL: "https://github.com/your-user/your-gitops-repo.git"
+        repoURL: "https://github.com/titlis-cloud/kubara-demo.git"
         path: "platform-configs"
         targetRevision: "main"
       apps:
